@@ -77,29 +77,28 @@ class Client:
   def send_message(self, prompt, conversation_id, attachment=None,timeout=500):
     url = "https://claude.ai/api/append_message"
 
-    # Upload attachment if provided
-    attachments = []
-    if attachment:
-      attachment_response = self.upload_attachment(attachment)
-      if attachment_response:
-        attachments = [attachment_response]
-      else:
-        return {"Error: Invalid file format. Please try again."}
+    # Initialize an empty attachments list
+    uploaded_attachments = []
 
-    # Ensure attachments is an empty list when no attachment is provided
-    if not attachment:
-      attachments = []
+    # Upload each attachment if provided
+    if attachments:
+        for attachment in attachments:
+            attachment_response = self.upload_attachment(attachment)
+            if attachment_response:
+                uploaded_attachments.append(attachment_response)
+            else:
+                return {"Error: Invalid file format for {}. Please try again.".format(attachment)}
 
     payload = json.dumps({
-      "completion": {
-        "prompt": f"{prompt}",
-        "timezone": "Asia/Kolkata",
-        "model": "claude-2"
-      },
-      "organization_uuid": f"{self.organization_id}",
-      "conversation_uuid": f"{conversation_id}",
-      "text": f"{prompt}",
-      "attachments": attachments
+        "completion": {
+            "prompt": f"{prompt}",
+            "timezone": "Asia/Kolkata",
+            "model": "claude-2"
+        },
+        "organization_uuid": f"{self.organization_id}",
+        "conversation_uuid": f"{conversation_id}",
+        "text": f"{prompt}",
+        "attachments": uploaded_attachments
     })
 
     headers = {
