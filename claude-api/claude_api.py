@@ -74,7 +74,7 @@ class Client:
       print(f"Error: {response.status_code} - {response.text}")
 
   # Send Message to Claude
-  def send_message(self, prompt, conversation_id, attachment=None,timeout=500):
+  def send_message(self, prompt, conversation_id, attachments=None,timeout=500):
     url = "https://claude.ai/api/append_message"
 
     # Initialize an empty attachments list
