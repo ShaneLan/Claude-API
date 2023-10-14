@@ -1,0 +1,8 @@
+- name: html to pdf
+  uses: misaelnieto/web_to_pdf_action@master
+  with:
+    webPageURL: https://microsoft.github.io/autogen/docs/getting-started
+    outputFile: ./out.pdf
+    usePuppeteer: true
+    useScreen: true
+    pdfOptions: '{"format": "Letter", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
